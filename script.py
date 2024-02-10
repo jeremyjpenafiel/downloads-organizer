@@ -1,10 +1,14 @@
+"""Downloads organizer program for my gf Kae <3"""
+
 import os
 from pathlib import Path
+import logging
+import sys
 
-DOWNLOADS = Path.home() / 'Downloads'
+DOWNLOADS = str(Path.home() / 'Downloads')
 FOLDER_DICT = {
     ".pdf": "PDFs",
-    ".jpg": "JPG",
+    ".jpg": "Images",
     ".png": "Images",
     ".jpeg": "Images",
     ".gif": "Images",
@@ -18,9 +22,23 @@ FOLDER_DICT = {
     ".docx": "Word Documents"}
 
 
+def exit_function() -> None:
+    """Exits the program"""
+    exit_input = input("Press enter to exit...")
+
+    while exit_input:
+        exit_input = input("Press enter to exit...")
+
+    print("Exiting...")
+    sys.exit(0)
+
+
 # TODO: Check if directory of current script is Downloads
-if os.curdir != DOWNLOADS:
-    raise Exception("Move this file to your Downloads folder")
+if os.getcwd() != DOWNLOADS:
+    print(f"Current directory is {os.getcwd()}")
+    e = "Hi babi q, you need to move this file to your Downloads folder and then you can run it"
+    logging.error(e)
+    exit_function()
 
 # TODO: Check if folders to be made already exists
 
@@ -40,6 +58,5 @@ for file in os.scandir():
             os.rename(file.path, new_path)
 
 # TODO: Schedule every day?
-
-
-
+print("Done organizing your files! Enjoy your organized folder, babi. I love you <3")
+exit_function()
