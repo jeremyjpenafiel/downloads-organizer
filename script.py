@@ -1,9 +1,7 @@
 import os
 from pathlib import Path
 
-
 DOWNLOADS = Path.home() / 'Downloads'
-FOLDER_NAMES = ["PDFs", "Images", "Videos", "Word Documents"]
 FOLDER_DICT = {
     ".pdf": "PDFs",
     ".jpg": "JPG",
@@ -21,8 +19,8 @@ FOLDER_DICT = {
 
 
 # TODO: Check if directory of current script is Downloads
-# if os.curdir != DOWNLOADS:
-#     raise Exception("Move this file to your Downloads folder")
+if os.curdir != DOWNLOADS:
+    raise Exception("Move this file to your Downloads folder")
 
 # TODO: Check if folders to be made already exists
 
@@ -38,7 +36,8 @@ for file in os.scandir():
         
     for file_type in FOLDER_DICT.keys():
         if file.name.endswith(file_type):
-            os.rename(file.path, file.path + FOLDER_DICT[file_type])
+            new_path = f"{os.curdir}/{FOLDER_DICT[file_type]}/{file.name}"
+            os.rename(file.path, new_path)
 
 # TODO: Schedule every day?
 
