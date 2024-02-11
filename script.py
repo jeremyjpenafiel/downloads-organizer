@@ -71,11 +71,11 @@ def exit_function() -> None:
 start_function()
 
 # TODO: Check if directory of current script is Downloads
-# if os.getcwd() != DOWNLOADS:
-#     print(f"Current directory is {os.getcwd()}")
-#     e = "Hi babi q, you need to move this file to your Downloads folder and then you can run it"
-#     logging.error(e)
-#     exit_function()
+if os.getcwd() != DOWNLOADS:
+    print(f"Current directory is {os.getcwd()}")
+    e = "Hi babi q, you need to move this file to your Downloads folder and then you can run it"
+    logging.error(e)
+    exit_function()
 
 # TODO: Check if folders to be made already exists
 
@@ -89,7 +89,6 @@ with os.scandir(os.getcwd()) as files:
     for file in files:
         if not file.is_file():
             continue
-        print(file.name)
         for file_type in FOLDER_DICT.keys():
             if file.name.endswith(file_type):
                 new_path = f"{os.curdir}/{FOLDER_DICT[file_type]}/{file.name}"
