@@ -90,7 +90,7 @@ with os.scandir(os.getcwd()) as files:
         if not file.is_file():
             continue
         for file_type in FOLDER_DICT.keys():
-            if file.name.endswith(file_type):
+            if file.name.lower().endswith(file_type):
                 new_path = f"{os.curdir}/{FOLDER_DICT[file_type]}/{file.name}"
                 os.rename(file.path, new_path)
 
