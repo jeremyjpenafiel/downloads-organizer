@@ -19,7 +19,16 @@ FOLDER_DICT = {
     ".mpg": "Videos",
     ".avi": "Videos",
     "doc": "Word Documents",
-    ".docx": "Word Documents"}
+    ".docx": "Word Documents"
+}
+
+def start_function() -> None:
+    """Starts the program"""
+    start_input = input("Hi babi q! <3 Press enter to start the program...")
+    while start_input:
+        start_input = input("Hi babi q! <3 Press enter to start the program...")
+
+    print("Starting the program...")
 
 
 def exit_function() -> None:
@@ -32,6 +41,8 @@ def exit_function() -> None:
     print("Exiting...")
     sys.exit(0)
 
+
+start_function()
 
 # TODO: Check if directory of current script is Downloads
 if os.getcwd() != DOWNLOADS:
