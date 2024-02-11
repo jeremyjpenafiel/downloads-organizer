@@ -4,23 +4,49 @@ import os
 from pathlib import Path
 import logging
 import sys
+from enum import Enum
+
+
+class Folders(Enum):
+    IMAGES = "Images"
+    PDF = "PDFs"
+    VIDEOS = "Videos"
+    APPS = "Applications"
+    PPT = "Powerpoints"
+    MUSIC = "Music"
+    DOCX = "Word Documents"
+    EXCEL = "Excel Files"
+    ZIP = "Zips and Rars"
+
 
 DOWNLOADS = str(Path.home() / 'Downloads')
 FOLDER_DICT = {
-    ".pdf": "PDFs",
-    ".jpg": "Images",
-    ".png": "Images",
-    ".jpeg": "Images",
-    ".gif": "Images",
-    ".bmp": "Images",
-    ".tiff": "Images",
-    "mp4": "Videos",
-    ".mov": "Videos",
-    ".mpg": "Videos",
-    ".avi": "Videos",
-    "doc": "Word Documents",
-    ".docx": "Word Documents"
+    ".pdf": Folders.PDF.value,
+    ".jpg": Folders.IMAGES.value,
+    ".png": Folders.IMAGES.value,
+    ".jpeg": Folders.IMAGES.value,
+    ".heic": Folders.IMAGES.value,
+    ".gif": Folders.IMAGES.value,
+    ".bmp": Folders.IMAGES.value,
+    ".tiff": Folders.IMAGES.value,
+    ".hevc": Folders.VIDEOS.value,
+    ".mp4": Folders.VIDEOS.value,
+    ".mov": Folders.VIDEOS.value,
+    ".mpg": Folders.VIDEOS.value,
+    ".avi": Folders.VIDEOS.value,
+    ".wmv": Folders.VIDEOS.value,
+    ".doc": Folders.DOCX.value,
+    ".docx": Folders.DOCX.value,
+    ".exe": Folders.APPS.value,
+    ".html": Folders.PDF.value,
+    ".xlsx": Folders.EXCEL.value,
+    ".xls": Folders.EXCEL.value,
+    ".zip": Folders.ZIP.value,
+    ".rar": Folders.ZIP.value,
+    ".mp3": Folders.MUSIC.value,
+    ".pptx": Folders.PPT.value,
 }
+
 
 def start_function() -> None:
     """Starts the program"""
@@ -53,7 +79,7 @@ if os.getcwd() != DOWNLOADS:
 
 # TODO: Check if folders to be made already exists
 
-for folder in FOLDER_DICT.values():
+for folder in set(FOLDER_DICT.values()):
     path: str = f"{os.curdir}/{folder}"
     if not os.path.exists(path):
         os.mkdir(path)
@@ -62,7 +88,8 @@ for folder in FOLDER_DICT.values():
 for file in os.scandir():
     if not file.is_file():
         continue
-        
+
+    # print(file.name)
     for file_type in FOLDER_DICT.keys():
         if file.name.endswith(file_type):
             new_path = f"{os.curdir}/{FOLDER_DICT[file_type]}/{file.name}"
