@@ -48,6 +48,7 @@ FOLDER_DICT = {
     ".zip": Folders.ZIP.value,
     ".rar": Folders.ZIP.value,
     ".mp3": Folders.MUSIC.value,
+    ".wav": Folders.MUSIC.value,
     ".pptx": Folders.PPT.value,
 }
 
