@@ -78,7 +78,7 @@ def main() -> None:
     start_function()
 
     for folder in set(FOLDER_DICT.values()):
-        path: str = f"{os.curdir}/{folder}"
+        path: str = f"{DOWNLOADS}/{folder}"
         if not os.path.exists(path):
             os.mkdir(path)
 
