@@ -77,6 +77,8 @@ def main() -> None:
 
     start_function()
 
+    files_moved: bool = False
+
     for folder in set(FOLDER_DICT.values()):
         path: str = f"{DOWNLOADS}/{folder}"
         if not os.path.exists(path):
@@ -108,6 +110,11 @@ def main() -> None:
                         break
                     counter += 1
 
+            files_moved = True
+
+    if not files_moved:
+        print("No files to organize, babi. I love you <3")
+        exit_function()
     # TODO: Schedule every day?
     print("Done organizing your files! Enjoy your organized folder, babi. I love you <3")
     exit_function()
