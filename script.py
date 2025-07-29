@@ -73,64 +73,45 @@ def exit_function() -> None:
     sys.exit(0)
 
 
-start_function()
+def main() -> None:
 
-# TODO: Check if directory of current script is Downloads
-# if os.getcwd() != DOWNLOADS:
-#     print(f"Current directory is {os.getcwd()}")
-#     e = "Hi babi q, you need to move this file to your Downloads folder and then you can run it"
-#     logging.error(e)
-#     exit_function()
+    start_function()
 
-# TODO: Check if folders to be made already exists
+    for folder in set(FOLDER_DICT.values()):
+        path: str = f"{os.curdir}/{folder}"
+        if not os.path.exists(path):
+            os.mkdir(path)
 
-for folder in set(FOLDER_DICT.values()):
-    path: str = f"{os.curdir}/{folder}"
-    if not os.path.exists(path):
-        os.mkdir(path)
+    with os.scandir(DOWNLOADS) as files:
+        for file in files:
+            if not file.is_file():
+                continue
+            file_type = Path(file.name).suffix.lower()
 
-# TODO: Move all files to corresponding folders
-with os.scandir(DOWNLOADS) as files:
-    for file in files:
-        if not file.is_file():
-            continue
-        file_type = Path(file.name).suffix.lower()
+            if file_type not in FOLDER_DICT:
+                continue
 
-        if file_type not in FOLDER_DICT:
-            continue
+            new_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{file.name}"
+            
+            # if file does not exist
+            if not os.path.exists(new_path):
+                os.rename(file.path, new_path)
+                
+            # if file exists, rename it and add a number to the end
+            else:
+                counter = 1    
+                while counter < 100:
+                    new_filename = Path(file.name).stem + f" ({counter}){file_type}"
+                    stemmed_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{new_filename}"
+                    if not os.path.exists(stemmed_path):
+                        os.rename(file.path, stemmed_path)
+                        break
+                    counter += 1
 
-        new_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{file.name}"
+    # TODO: Schedule every day?
+    print("Done organizing your files! Enjoy your organized folder, babi. I love you <3")
+    exit_function()
         
-        if not os.path.exists(new_path):
-            os.rename(file.path, new_path)
-        else:
-            print(f"File {file.name} already exists in {FOLDER_DICT[file_type]}")
-            counter = 1    
-            while counter < 100:
-                new_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{file.name}"
-                stemmed_path = Path(file.name).stem + f" ({counter}){file_type}"
-                if not os.path.exists(stemmed_path):
-                    os.rename(file.path, stemmed_path)
-                    break
-                counter += 1
-        # for file_type in FOLDER_DICT.keys():
-        #     print(f"Checking {file.name} for type {file_type}")
-        #     if file.name.lower().endswith(file_type):
-        #         new_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{file.name}"
-        #         if not os.path.exists(new_path):
-        #             print(f"Moving {file.name} to {FOLDER_DICT[file_type]}")
-        #             os.rename(file.path, new_path)
-        #         else:
-        #             print(f"File {file.name} already exists in {FOLDER_DICT[file_type]}")
-        #             counter = 1
-        #             while counter < 100:
-        #                 new_path = f"{DOWNLOADS}/{FOLDER_DICT[file_type]}/{file.name}"
-        #                 stemmed_path = Path(file.name).stem + f" ({counter}){file_type}"
-        #                 if not os.path.exists(stemmed_path):
-        #                     os.rename(file.path, stemmed_path)
-        #                     break
-        #                 counter += 1
 
-# TODO: Schedule every day?
-print("Done organizing your files! Enjoy your organized folder, babi. I love you <3")
-exit_function()
+if __name__ == "__main__":
+    main()
